@@ -4,8 +4,10 @@ import com.example.haldemo.model.ClientDataDto;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.QueryParameter;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.mediatype.Affordances;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -46,7 +48,7 @@ public class CRMDataRetrievalController {
     }
 
     // produces = "application/prs.hal-forms+json"
-    @GetMapping(value = "/contact/ubs-participants")
+    @GetMapping(value = "/contact/some-participants")
     public ResponseEntity<CollectionModel<ClientDataDto>> getPartnerInfoByPartnerIdOrBankingId(@RequestParam(name = "partnerId", required = false) String partnerId,
                                                                                                @RequestParam(name = "bankingRelationId", required = false) String bankingRelationId) {
 
