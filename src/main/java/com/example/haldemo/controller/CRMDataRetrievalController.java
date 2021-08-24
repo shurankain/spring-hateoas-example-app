@@ -4,16 +4,13 @@ import com.example.haldemo.model.ClientDataDto;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.QueryParameter;
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.mediatype.Affordances;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -42,7 +39,7 @@ public class CRMDataRetrievalController {
     }
 
     // unused method created to test HAL
-    @DeleteMapping(value = "/contact/ubs-participants/{id}")
+    @GetMapping(value = "/contact/ubs-participants/{id}")
     public ResponseEntity<Object> deletePartner(@PathVariable(name = "id") String id) {
         return ResponseEntity.ok().build();
     }
@@ -57,10 +54,7 @@ public class CRMDataRetrievalController {
                 .afford(HttpMethod.GET)
                 .withOutput(ClientDataDto.class) //
                 .withName("getPartnerInfoByPartnerIdOrBankingId")
-                .addParameters(
-                        QueryParameter.optional("partnerId"),
-                        QueryParameter.optional("bankingRelationId")
-                )
+
                 .andAfford(HttpMethod.POST)
                 .withOutput(ClientDataDto.class)
                 .withName("changePartner")
@@ -83,7 +77,8 @@ public class CRMDataRetrievalController {
 //        RepresentationModel<?> representationModel = RepresentationModel.of(clientData.get());
 //        representationModel.add(link);
 
-        return ResponseEntity.ok(collectionModel);
+        return clientData.map(data -> new ResponseEntity<>(collectionModel, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
     private ClientDataDto constructClientDataDto() {
