@@ -46,11 +46,11 @@ public class CRMDataRetrievalController {
 
     // produces = "application/prs.hal-forms+json"
     @GetMapping(value = "/contact/some-participants")
-    public ResponseEntity<CollectionModel<ClientDataDto>> getPartnerInfoByPartnerIdOrBankingId(@RequestParam(name = "partnerId", required = false) String partnerId,
-                                                                                               @RequestParam(name = "bankingRelationId", required = false) String bankingRelationId) {
+    public ResponseEntity<CollectionModel<ClientDataDto>> getPersonInfoByPersonIdOrBankingId(@RequestParam(name = "personId", required = false) String personId,
+                                                                                             @RequestParam(name = "bankingId", required = false) String bankingId) {
 
         CRMDataRetrievalController crmDataRetrievalController = methodOn(CRMDataRetrievalController.class);
-        Link link = Affordances.of(linkTo(crmDataRetrievalController.getPartnerInfoByPartnerIdOrBankingId(partnerId, bankingRelationId)).withSelfRel())
+        Link link = Affordances.of(linkTo(crmDataRetrievalController.getPersonInfoByPersonIdOrBankingId(personId, bankingId)).withSelfRel())
                 .afford(HttpMethod.GET)
                 .withOutput(ClientDataDto.class) //
                 .withName("getPartnerInfoByPartnerIdOrBankingId")
